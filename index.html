@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>the-followup</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --panel: #161924;
+    --panel-2: #1d2130;
+    --border: #2a2f42;
+    --text: #e7e9ee;
+    --muted: #9097a8;
+    --accent: #6aa8ff;
+    --good: #4cd09c;
+    --warn: #f1b04c;
+    --bad: #ef6f6c;
+    --chip: #232739;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --panel-2: #f1f3f8;
+      --border: #e0e3ec;
+      --text: #1a1c25;
+      --muted: #5b6478;
+      --accent: #2962d8;
+      --good: #1a8a64;
+      --warn: #b46a00;
+      --bad: #b8332f;
+      --chip: #eef0f6;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 24px 20px 80px; }
+  header.top { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 6px; }
+  header.top h1 { margin: 0; font-size: 22px; letter-spacing: -0.01em; }
+  header.top h1 .dim { color: var(--muted); font-weight: 400; }
+  .meta { color: var(--muted); font-size: 12px; display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+  .meta .pill { background: var(--chip); padding: 3px 8px; border-radius: 999px; }
+  .tabs { display: flex; gap: 2px; margin: 18px 0 14px; border-bottom: 1px solid var(--border); }
+  .tab { padding: 9px 14px; border: 1px solid transparent; border-bottom: none; border-radius: 8px 8px 0 0; background: transparent; color: var(--muted); cursor: pointer; font-size: 14px; }
+  .tab[aria-selected="true"] { background: var(--panel); color: var(--text); border-color: var(--border); }
+  .toolbar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; align-items: center; }
+  .toolbar input[type="search"], .toolbar select { background: var(--panel); color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 6px 10px; font: inherit; }
+  .toolbar label { color: var(--muted); font-size: 12px; display: flex; gap: 6px; align-items: center; }
+  .toolbar .grow { flex: 1; }
+  .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { background: var(--panel-2); color: var(--muted); font-weight: 600; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; cursor: pointer; user-select: none; white-space: nowrap; }
+  th[data-sort] .arrow { opacity: 0.35; margin-left: 4px; }
+  th[data-sort].active .arrow { opacity: 1; color: var(--text); }
+  tr:last-child td { border-bottom: none; }
+  tr.row-modified td { background: rgba(106,168,255,0.06); }
+  tr.row-done td { opacity: 0.55; }
+  td.desc { max-width: 460px; }
+  td.desc .orig { color: var(--muted); font-size: 12px; margin-top: 4px; font-style: italic; }
+  td.meeting { font-size: 12px; color: var(--muted); white-space: nowrap; }
+  td.meeting .mtitle { color: var(--text); font-style: normal; }
+  td.due { white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .badge { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; letter-spacing: 0.02em; margin-left: 6px; vertical-align: middle; }
+  .badge.overdue { background: rgba(239,111,108,0.15); color: var(--bad); }
+  .badge.soon { background: rgba(241,176,76,0.18); color: var(--warn); }
+  .badge.unassigned { background: rgba(239,111,108,0.15); color: var(--bad); }
+  .badge.unresolved { background: rgba(241,176,76,0.18); color: var(--warn); }
+  .badge.default3bd { background: var(--chip); color: var(--muted); }
+  .owner-select { background: var(--panel-2); color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 4px 8px; font: inherit; min-width: 160px; }
+  .owner-select.unassigned { color: var(--bad); border-color: rgba(239,111,108,0.6); }
+  .owner-select.unresolved { color: var(--warn); border-color: rgba(241,176,76,0.6); }
+  .empty { color: var(--muted); padding: 24px; text-align: center; }
+  .person-grid { display: grid; grid-template-columns: 220px 1fr; gap: 14px; }
+  .person-list { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 8px; }
+  .person-btn { display: flex; justify-content: space-between; width: 100%; background: transparent; color: var(--text); border: none; padding: 8px 10px; border-radius: 6px; font: inherit; cursor: pointer; text-align: left; }
+  .person-btn:hover { background: var(--panel-2); }
+  .person-btn[aria-pressed="true"] { background: var(--accent); color: white; }
+  .person-btn .count { color: var(--muted); font-size: 12px; }
+  .person-btn[aria-pressed="true"] .count { color: rgba(255,255,255,0.85); }
+  .person-btn.flagged { color: var(--bad); }
+  .section-h { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin: 14px 0 8px; }
+  .changes-bar { position: sticky; top: 0; z-index: 10; background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; margin-bottom: 14px; display: none; align-items: center; justify-content: space-between; gap: 12px; }
+  .changes-bar.show { display: flex; }
+  .changes-bar .msg { color: var(--accent); }
+  .btn { background: var(--accent); color: white; border: none; border-radius: 6px; padding: 7px 14px; font: inherit; cursor: pointer; }
+  .btn.secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
+  .btn:hover { filter: brightness(1.05); }
+  .checkbox { width: 16px; height: 16px; }
+  .footer { color: var(--muted); font-size: 12px; margin-top: 22px; line-height: 1.6; }
+  .footer code { background: var(--chip); padding: 1px 6px; border-radius: 4px; font-size: 12px; }
+  .err { background: rgba(239,111,108,0.12); color: var(--bad); padding: 14px; border-radius: 10px; border: 1px solid rgba(239,111,108,0.3); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div>
+    <h1>the-followup <span class="dim">— meeting action items</span></h1>
+    <div class="meta" id="meta"></div>
+  </div>
+  <div class="meta">
+    <a href="https://github.com/srkamp/the-followup" target="_blank" rel="noopener">repo ↗</a>
+  </div>
+</header>
+
+<div class="changes-bar" id="changesBar" role="status" aria-live="polite">
+  <span class="msg"><strong id="changesCount">0</strong> unsaved change(s) in this session.</span>
+  <span>
+    <button class="btn secondary" id="discardBtn" type="button">Discard</button>
+    <button class="btn" id="downloadBtn" type="button">Download updated data.json</button>
+  </span>
+</div>
+
+<div class="tabs" role="tablist">
+  <button class="tab" role="tab" aria-selected="true" data-view="master">Master</button>
+  <button class="tab" role="tab" aria-selected="false" data-view="byperson">By person</button>
+  <button class="tab" role="tab" aria-selected="false" data-view="due3">Due in 3 days</button>
+</div>
+
+<div id="viewMaster" class="view">
+  <div class="toolbar">
+    <input type="search" id="masterSearch" placeholder="Search description, meeting, owner…" />
+    <label>Hide done <input type="checkbox" id="hideDone" class="checkbox" checked /></label>
+    <span class="grow"></span>
+    <span class="meta" id="masterCount"></span>
+  </div>
+  <div class="panel">
+    <table>
+      <thead>
+        <tr>
+          <th data-sort="due" class="active">Due <span class="arrow">↑</span></th>
+          <th data-sort="owner">Owner <span class="arrow"></span></th>
+          <th>Item</th>
+          <th data-sort="meeting">Meeting <span class="arrow"></span></th>
+          <th>Done</th>
+        </tr>
+      </thead>
+      <tbody id="masterBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<div id="viewByperson" class="view" hidden>
+  <div class="person-grid">
+    <div>
+      <div class="section-h">People</div>
+      <div class="person-list" id="personList"></div>
+    </div>
+    <div>
+      <div class="section-h" id="personHeader">Pick a person</div>
+      <div class="panel">
+        <table>
+          <thead>
+            <tr>
+              <th>Due</th>
+              <th>Item</th>
+              <th>Meeting</th>
+              <th>Done</th>
+            </tr>
+          </thead>
+          <tbody id="personBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="viewDue3" class="view" hidden>
+  <div class="section-h" id="due3Header">Due within 3 days of today</div>
+  <div class="panel">
+    <table>
+      <thead>
+        <tr>
+          <th>Due</th>
+          <th>Owner</th>
+          <th>Item</th>
+          <th>Meeting</th>
+          <th>Done</th>
+        </tr>
+      </thead>
+      <tbody id="due3Body"></tbody>
+    </table>
+  </div>
+  <div class="section-h" style="margin-top:24px">Overdue (open items past today)</div>
+  <div class="panel">
+    <table>
+      <thead>
+        <tr>
+          <th>Due</th>
+          <th>Owner</th>
+          <th>Item</th>
+          <th>Meeting</th>
+          <th>Done</th>
+        </tr>
+      </thead>
+      <tbody id="overdueBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="footer">
+  <p>This dashboard is static. Reassignments are kept in your browser session; click <em>Download updated data.json</em> to commit changes — replace <code>data.json</code> in the repo and push. See <a href="README.md">README</a> for the full workflow.</p>
+</div>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  // ---------- helpers ----------
+  const $ = (s, r) => (r || document).querySelector(s);
+  const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+  const fmtDate = (iso) => {
+    const [y,m,d] = iso.split("-").map(Number);
+    const dt = new Date(Date.UTC(y, m-1, d));
+    return dt.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric", timeZone: "UTC" });
+  };
+  const todayISO = () => {
+    const dt = new Date();
+    return [dt.getFullYear(), String(dt.getMonth()+1).padStart(2,"0"), String(dt.getDate()).padStart(2,"0")].join("-");
+  };
+  const daysBetween = (aISO, bISO) => {
+    const [ay,am,ad] = aISO.split("-").map(Number);
+    const [by,bm,bd] = bISO.split("-").map(Number);
+    const a = Date.UTC(ay, am-1, ad), b = Date.UTC(by, bm-1, bd);
+    return Math.round((b - a) / 86400000);
+  };
+  const escapeHtml = (s) => String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
+
+  // ---------- state ----------
+  let data = null;       // current (with edits)
+  let original = null;   // pristine copy from data.json
+  let people = null;
+  let view = "master";
+  let masterSort = { field: "due", dir: "asc" };
+  let activePerson = null;
+
+  // ---------- load ----------
+  async function load() {
+    try {
+      const buster = `?t=${Date.now()}`;
+      const [dRes, pRes] = await Promise.all([
+        fetch("data.json" + buster, { cache: "no-store" }),
+        fetch("people.json" + buster, { cache: "no-store" })
+      ]);
+      if (!dRes.ok) throw new Error(`data.json ${dRes.status}`);
+      if (!pRes.ok) throw new Error(`people.json ${pRes.status}`);
+      data = await dRes.json();
+      original = JSON.parse(JSON.stringify(data));
+      people = await pRes.json();
+      renderMeta();
+      renderAll();
+    } catch (e) {
+      $(".wrap").insertAdjacentHTML("beforeend", `<div class="err">Couldn't load data: ${escapeHtml(e.message)}. Make sure <code>data.json</code> and <code>people.json</code> are in the same folder as this file.</div>`);
+    }
+  }
+
+  // ---------- meta ----------
+  function renderMeta() {
+    const open = data.actionItems.filter(a => a.status === "open").length;
+    const flagged = data.actionItems.filter(a => a.ownerStatus !== "resolved" && a.status === "open").length;
+    $("#meta").innerHTML = `
+      <span class="pill">${data.actionItems.length} action item${data.actionItems.length===1?"":"s"}</span>
+      <span class="pill">${open} open</span>
+      ${flagged ? `<span class="pill" style="color:var(--bad)">${flagged} need owner</span>` : ""}
+      <span>data.json updated <strong>${escapeHtml(data.lastUpdated)}</strong></span>
+      <span>page loaded <strong>${new Date().toLocaleString()}</strong></span>
+    `;
+  }
+
+  // ---------- shared row rendering ----------
+  function meetingFor(id) { return data.meetings.find(m => m.id === id); }
+
+  function dueBadge(iso) {
+    const t = todayISO();
+    const delta = daysBetween(t, iso);
+    if (delta < 0) return `<span class="badge overdue">overdue</span>`;
+    if (delta <= 3) return `<span class="badge soon">due in ${delta}d</span>`;
+    return "";
+  }
+
+  function ownerSelect(item) {
+    const opts = people.people.map(p => p.name);
+    const isFlagged = item.ownerStatus !== "resolved";
+    const cls = item.ownerStatus === "unassigned" ? "owner-select unassigned"
+              : item.ownerStatus === "unresolved" ? "owner-select unresolved"
+              : "owner-select";
+    let html = `<select class="${cls}" data-id="${item.id}" aria-label="Owner for ${escapeHtml(item.description)}">`;
+    html += `<option value="UNASSIGNED" ${item.owner === "UNASSIGNED" ? "selected" : ""}>— UNASSIGNED —</option>`;
+    for (const name of opts) {
+      html += `<option value="${escapeHtml(name)}" ${item.owner === name ? "selected" : ""}>${escapeHtml(name)}</option>`;
+    }
+    // If owner is something else (e.g., UNRESOLVED:Foo), include it
+    if (item.owner !== "UNASSIGNED" && !opts.includes(item.owner)) {
+      html += `<option value="${escapeHtml(item.owner)}" selected>${escapeHtml(item.owner)}</option>`;
+    }
+    html += `</select>`;
+    if (isFlagged) {
+      const label = item.ownerStatus === "unassigned" ? "UNASSIGNED" : `UNRESOLVED: ${escapeHtml(item.ownerRaw || "")}`;
+      html += ` <span class="badge ${item.ownerStatus}">${label}</span>`;
+    }
+    return html;
+  }
+
+  function meetingCell(item) {
+    const m = meetingFor(item.meetingId);
+    if (!m) return "";
+    return `<span class="mtitle">${escapeHtml(m.title)}</span><br>${escapeHtml(m.date)} · ${escapeHtml(m.type)}`;
+  }
+
+  function descCell(item) {
+    const note = item.dueDateNote ? `<div class="orig">${escapeHtml(item.originalText)} — <em>${escapeHtml(item.dueDateNote)}</em></div>`
+                                  : `<div class="orig">${escapeHtml(item.originalText)}</div>`;
+    return `<div>${escapeHtml(item.description)}</div>${note}`;
+  }
+
+  function rowHTML(item, opts = {}) {
+    const isModified = isItemModified(item.id);
+    const isDone = item.status === "done";
+    const cls = `${isModified ? "row-modified " : ""}${isDone ? "row-done " : ""}`;
+    const cells = [];
+    cells.push(`<td class="due">${escapeHtml(fmtDate(item.dueDate))} ${dueBadge(item.dueDate)}</td>`);
+    if (opts.includeOwner !== false) cells.push(`<td>${ownerSelect(item)}</td>`);
+    cells.push(`<td class="desc">${descCell(item)}</td>`);
+    cells.push(`<td class="meeting">${meetingCell(item)}</td>`);
+    cells.push(`<td><input type="checkbox" class="checkbox done-toggle" data-id="${item.id}" ${isDone ? "checked" : ""} aria-label="Mark done"/></td>`);
+    return `<tr class="${cls.trim()}" data-id="${item.id}">${cells.join("")}</tr>`;
+  }
+
+  // ---------- views ----------
+  function renderMaster() {
+    const q = $("#masterSearch").value.trim().toLowerCase();
+    const hideDone = $("#hideDone").checked;
+    let items = data.actionItems.slice();
+    if (hideDone) items = items.filter(a => a.status !== "done");
+    if (q) {
+      items = items.filter(a => {
+        const m = meetingFor(a.meetingId);
+        const blob = `${a.description} ${a.originalText} ${a.owner} ${a.ownerRaw||""} ${m ? m.title : ""}`.toLowerCase();
+        return blob.includes(q);
+      });
+    }
+    items.sort(masterSorter());
+    $("#masterBody").innerHTML = items.length
+      ? items.map(i => rowHTML(i)).join("")
+      : `<tr><td colspan="5" class="empty">No items match.</td></tr>`;
+    // sort indicators
+    $$("#viewMaster th[data-sort]").forEach(th => {
+      const f = th.getAttribute("data-sort");
+      th.classList.toggle("active", f === masterSort.field);
+      const arrow = th.querySelector(".arrow");
+      arrow.textContent = f === masterSort.field ? (masterSort.dir === "asc" ? "↑" : "↓") : "";
+    });
+    $("#masterCount").textContent = `${items.length} shown`;
+  }
+
+  function masterSorter() {
+    const dir = masterSort.dir === "asc" ? 1 : -1;
+    const field = masterSort.field;
+    return (a, b) => {
+      let av, bv;
+      if (field === "due") { av = a.dueDate; bv = b.dueDate; }
+      else if (field === "owner") { av = a.owner; bv = b.owner; }
+      else if (field === "meeting") {
+        const ma = meetingFor(a.meetingId), mb = meetingFor(b.meetingId);
+        av = ma ? ma.date + ma.title : ""; bv = mb ? mb.date + mb.title : "";
+      }
+      if (av < bv) return -1 * dir;
+      if (av > bv) return  1 * dir;
+      return 0;
+    };
+  }
+
+  function renderByPerson() {
+    // Build list = allowlist + UNASSIGNED + any others present
+    const counts = {};
+    for (const a of data.actionItems) {
+      if (a.status === "done") continue;
+      counts[a.owner] = (counts[a.owner] || 0) + 1;
+    }
+    const owners = [];
+    for (const p of people.people) owners.push({ name: p.name, role: p.role });
+    if (!owners.find(o => o.name === "UNASSIGNED")) owners.push({ name: "UNASSIGNED", role: "flag" });
+    // also include any owner present in data not yet listed
+    Object.keys(counts).forEach(o => {
+      if (!owners.find(x => x.name === o)) owners.push({ name: o, role: o.startsWith("UNRESOLVED") ? "flag" : "other" });
+    });
+
+    $("#personList").innerHTML = owners.map(o => {
+      const c = counts[o.name] || 0;
+      const flag = o.role === "flag";
+      return `<button class="person-btn ${flag ? "flagged" : ""}" data-name="${escapeHtml(o.name)}" aria-pressed="${activePerson === o.name ? "true" : "false"}">
+        <span>${escapeHtml(o.name)}</span><span class="count">${c}</span>
+      </button>`;
+    }).join("");
+
+    if (!activePerson) {
+      $("#personHeader").textContent = "Pick a person";
+      $("#personBody").innerHTML = `<tr><td colspan="4" class="empty">Select someone on the left.</td></tr>`;
+      return;
+    }
+    const items = data.actionItems
+      .filter(a => a.owner === activePerson)
+      .sort((a,b) => a.dueDate.localeCompare(b.dueDate));
+    $("#personHeader").textContent = `${activePerson} — ${items.filter(i=>i.status!=="done").length} open, ${items.filter(i=>i.status==="done").length} done`;
+    $("#personBody").innerHTML = items.length
+      ? items.map(i => rowHTML(i, { includeOwner: false })).join("")
+      : `<tr><td colspan="4" class="empty">Nothing assigned.</td></tr>`;
+  }
+
+  function renderDue3() {
+    const t = todayISO();
+    const open = data.actionItems.filter(a => a.status !== "done");
+    const due3 = open.filter(a => {
+      const d = daysBetween(t, a.dueDate);
+      return d >= 0 && d <= 3;
+    }).sort((a,b) => a.dueDate.localeCompare(b.dueDate));
+    const overdue = open.filter(a => daysBetween(t, a.dueDate) < 0)
+                        .sort((a,b) => a.dueDate.localeCompare(b.dueDate));
+    $("#due3Header").textContent = `Due within 3 days of today (${t}) — ${due3.length}`;
+    $("#due3Body").innerHTML = due3.length
+      ? due3.map(i => rowHTML(i)).join("")
+      : `<tr><td colspan="5" class="empty">Nothing due in the next 3 days.</td></tr>`;
+    $("#overdueBody").innerHTML = overdue.length
+      ? overdue.map(i => rowHTML(i)).join("")
+      : `<tr><td colspan="5" class="empty">Nothing overdue.</td></tr>`;
+  }
+
+  function renderAll() {
+    renderMaster();
+    renderByPerson();
+    renderDue3();
+    renderChangesBar();
+  }
+
+  // ---------- changes / persistence ----------
+  function isItemModified(id) {
+    const a = data.actionItems.find(x => x.id === id);
+    const b = original.actionItems.find(x => x.id === id);
+    if (!a || !b) return true;
+    return a.owner !== b.owner || a.ownerStatus !== b.ownerStatus || a.status !== b.status;
+  }
+  function modifiedCount() {
+    return data.actionItems.filter(a => isItemModified(a.id)).length;
+  }
+  function renderChangesBar() {
+    const n = modifiedCount();
+    $("#changesBar").classList.toggle("show", n > 0);
+    $("#changesCount").textContent = String(n);
+  }
+
+  function setOwner(id, newOwner) {
+    const item = data.actionItems.find(x => x.id === id);
+    if (!item) return;
+    item.owner = newOwner;
+    if (newOwner === "UNASSIGNED") item.ownerStatus = "unassigned";
+    else if (people.people.some(p => p.name === newOwner)) item.ownerStatus = "resolved";
+    else item.ownerStatus = "unresolved";
+    renderAll();
+  }
+
+  function setDone(id, done) {
+    const item = data.actionItems.find(x => x.id === id);
+    if (!item) return;
+    item.status = done ? "done" : "open";
+    renderAll();
+  }
+
+  function discardChanges() {
+    data = JSON.parse(JSON.stringify(original));
+    renderAll();
+  }
+
+  function downloadUpdated() {
+    // Update lastUpdated timestamp on save
+    data.lastUpdated = new Date().toISOString();
+    const blob = new Blob([JSON.stringify(data, null, 2) + "\n"], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "data.json";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    // Treat the export as the new baseline so the bar clears
+    original = JSON.parse(JSON.stringify(data));
+    renderMeta();
+    renderAll();
+  }
+
+  // ---------- events ----------
+  document.addEventListener("change", (e) => {
+    if (e.target.matches(".owner-select")) {
+      setOwner(e.target.dataset.id, e.target.value);
+    } else if (e.target.matches(".done-toggle")) {
+      setDone(e.target.dataset.id, e.target.checked);
+    } else if (e.target.matches("#hideDone")) {
+      renderMaster();
+    }
+  });
+
+  document.addEventListener("click", (e) => {
+    const tab = e.target.closest(".tab");
+    if (tab) {
+      view = tab.dataset.view;
+      $$(".tab").forEach(t => t.setAttribute("aria-selected", String(t === tab)));
+      $$(".view").forEach(v => v.hidden = true);
+      $("#view" + view.charAt(0).toUpperCase() + view.slice(1)).hidden = false;
+      return;
+    }
+    const th = e.target.closest("#viewMaster th[data-sort]");
+    if (th) {
+      const f = th.dataset.sort;
+      if (masterSort.field === f) masterSort.dir = masterSort.dir === "asc" ? "desc" : "asc";
+      else { masterSort.field = f; masterSort.dir = "asc"; }
+      renderMaster();
+      return;
+    }
+    const pb = e.target.closest(".person-btn");
+    if (pb) {
+      activePerson = pb.dataset.name;
+      renderByPerson();
+      return;
+    }
+    if (e.target.matches("#downloadBtn")) downloadUpdated();
+    if (e.target.matches("#discardBtn")) discardChanges();
+  });
+
+  $("#masterSearch").addEventListener("input", renderMaster);
+
+  load();
+})();
+</script>
+</body>
+</html>

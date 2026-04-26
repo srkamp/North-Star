@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 1,
+  "lastUpdated": "2026-04-26T12:00:00Z",
+  "meetings": [
+    {
+      "id": "m_2026-04-22_acme-qbr",
+      "filename": "2026-04-22_acme-travel-q2-review.md",
+      "date": "2026-04-22",
+      "title": "Quarterly Business Review - Acme Corp Travel Program",
+      "type": "external",
+      "attendees": [
+        "Samson Kampler",
+        "Maya Chen",
+        "Tom Larsen",
+        "Priya Ramaswamy"
+      ]
+    },
+    {
+      "id": "m_2026-04-23_sm-sync",
+      "filename": "2026-04-23_internal-sales-marketing-sync.md",
+      "date": "2026-04-23",
+      "title": "Weekly Sales & Marketing Sync",
+      "type": "internal",
+      "attendees": [
+        "Samson Kampler",
+        "Maya Chen",
+        "Derek Boateng"
+      ]
+    }
+  ],
+  "actionItems": [
+    {
+      "id": "a_001",
+      "meetingId": "m_2026-04-22_acme-qbr",
+      "owner": "Samson Kampler",
+      "ownerStatus": "resolved",
+      "ownerRaw": "Samson Kampler",
+      "description": "Send the Q1 savings breakdown deck",
+      "originalText": "Samson Kampler to send the Q1 savings breakdown deck by end of week.",
+      "dueDate": "2026-04-24",
+      "dueDateSource": "explicit-relative",
+      "dueDateNote": "'by end of week' interpreted as Fri 2026-04-24 (business week ending the meeting week).",
+      "status": "open"
+    },
+    {
+      "id": "a_002",
+      "meetingId": "m_2026-04-22_acme-qbr",
+      "owner": "Maya Chen",
+      "ownerStatus": "resolved",
+      "ownerRaw": "Maya Chen",
+      "description": "Scope the contractor reporting feature and return with a timeline",
+      "originalText": "Maya Chen will scope the contractor reporting feature and come back with a timeline within two weeks.",
+      "dueDate": "2026-05-06",
+      "dueDateSource": "explicit-relative",
+      "dueDateNote": "'within two weeks' = meeting date + 14 calendar days.",
+      "status": "open"
+    },
+    {
+      "id": "a_003",
+      "meetingId": "m_2026-04-22_acme-qbr",
+      "owner": "Tom Larsen",
+      "ownerStatus": "resolved",
+      "ownerRaw": "Tom Larsen",
+      "description": "Provide the list of UK subsidiary travel admins for onboarding conversations",
+      "originalText": "Tom Larsen to provide the list of UK subsidiary travel admins so we can begin onboarding conversations.",
+      "dueDate": "2026-04-27",
+      "dueDateSource": "default-3bd",
+      "dueDateNote": "No date in source; default = meeting date + 3 business days.",
+      "status": "open"
+    },
+    {
+      "id": "a_004",
+      "meetingId": "m_2026-04-22_acme-qbr",
+      "owner": "Priya Ramaswamy",
+      "ownerStatus": "resolved",
+      "ownerRaw": "Priya Ramaswamy",
+      "description": "Share Acme's current rail booking volume to prioritize Western European expansion",
+      "originalText": "Priya Ramaswamy will share Acme's current rail booking volume so we can prioritize Western European expansion.",
+      "dueDate": "2026-04-27",
+      "dueDateSource": "default-3bd",
+      "dueDateNote": "No date in source; default = meeting date + 3 business days.",
+      "status": "open"
+    },
+    {
+      "id": "a_005",
+      "meetingId": "m_2026-04-22_acme-qbr",
+      "owner": "UNASSIGNED",
+      "ownerStatus": "unassigned",
+      "ownerRaw": "Team",
+      "description": "Follow up on integration questions raised about Acme's expense system",
+      "originalText": "Team to follow up on integration questions raised about Acme's expense system.",
+      "dueDate": "2026-04-27",
+      "dueDateSource": "default-3bd",
+      "dueDateNote": "No date in source; default = meeting date + 3 business days. Owner 'Team' is ambiguous and was flagged.",
+      "status": "open"
+    },
+    {
+      "id": "a_006",
+      "meetingId": "m_2026-04-23_sm-sync",
+      "owner": "Derek Boateng",
+      "ownerStatus": "resolved",
+      "ownerRaw": "Derek Boateng",
+      "description": "Draft three case study video concepts",
+      "originalText": "Derek Boateng to draft three case study video concepts by next Friday.",
+      "dueDate": "2026-05-01",
+      "dueDateSource": "explicit-relative",
+      "dueDateNote": "'by next Friday' said on Thu 2026-04-23. Interpreted as the Friday of the following week (2026-05-01) rather than the next-day Friday (2026-04-24); confirm with reassignment if you meant 2026-04-24.",
+      "status": "open"
+    },
+    {
+      "id": "a_007",
+      "meetingId": "m_2026-04-23_sm-sync",
+      "owner": "Samson Kampler",
+      "ownerStatus": "resolved",
+      "ownerRaw": "Samson",
+      "description": "Update the proposal bot's confidence scoring logic based on last month's feedback",
+      "originalText": "Samson to update the proposal bot's confidence scoring logic based on last month's feedback.",
+      "dueDate": "2026-04-28",
+      "dueDateSource": "default-3bd",
+      "dueDateNote": "No date in source; default = meeting date + 3 business days. Owner 'Samson' resolved to 'Samson Kampler' via people.json alias.",
+      "status": "open"
+    },
+    {
+      "id": "a_008",
+      "meetingId": "m_2026-04-23_sm-sync",
+      "owner": "Maya Chen",
+      "ownerStatus": "resolved",
+      "ownerRaw": "Maya Chen",
+      "description": "Confirm conference booth dimensions with the events team",
+      "originalText": "Maya Chen to confirm conference booth dimensions with the events team.",
+      "dueDate": "2026-04-28",
+      "dueDateSource": "default-3bd",
+      "dueDateNote": "No date in source; default = meeting date + 3 business days.",
+      "status": "open"
+    },
+    {
+      "id": "a_009",
+      "meetingId": "m_2026-04-23_sm-sync",
+      "owner": "Samson Kampler",
+      "ownerStatus": "resolved",
+      "ownerRaw": "Samson Kampler",
+      "description": "Write a speaking abstract for the conference",
+      "originalText": "Samson Kampler will write a speaking abstract by May 1.",
+      "dueDate": "2026-05-01",
+      "dueDateSource": "explicit",
+      "dueDateNote": "Explicit date in source.",
+      "status": "open"
+    },
+    {
+      "id": "a_010",
+      "meetingId": "m_2026-04-23_sm-sync",
+      "owner": "UNASSIGNED",
+      "ownerStatus": "unassigned",
+      "ownerRaw": "Someone",
+      "description": "Handle the conference giveaway order",
+      "originalText": "Someone needs to handle the conference giveaway order.",
+      "dueDate": "2026-04-28",
+      "dueDateSource": "default-3bd",
+      "dueDateNote": "No date in source; default = meeting date + 3 business days. Owner 'Someone' is ambiguous and was flagged.",
+      "status": "open"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "people": [
+    {
+      "name": "Samson Kampler",
+      "aliases": ["Samson"],
+      "role": "internal"
+    },
+    {
+      "name": "Maya Chen",
+      "aliases": ["Maya"],
+      "role": "internal"
+    },
+    {
+      "name": "Derek Boateng",
+      "aliases": ["Derek"],
+      "role": "external"
+    },
+    {
+      "name": "Priya Ramaswamy",
+      "aliases": ["Priya"],
+      "role": "external"
+    },
+    {
+      "name": "Tom Larsen",
+      "aliases": ["Tom"],
+      "role": "external"
+    }
+  ],
+  "rules": {
+    "matchPolicy": "strict-allowlist",
+    "comment": "Only names (or single-token aliases) listed above are auto-resolved. 'team', 'someone', or any name not on this list flags as UNASSIGNED or UNRESOLVED."
+  }
+}
