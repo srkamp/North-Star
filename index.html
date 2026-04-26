@@ -93,6 +93,70 @@
   .footer { color: var(--muted); font-size: 12px; margin-top: 22px; line-height: 1.6; }
   .footer code { background: var(--chip); padding: 1px 6px; border-radius: 4px; font-size: 12px; }
   .err { background: rgba(239,111,108,0.12); color: var(--bad); padding: 14px; border-radius: 10px; border: 1px solid rgba(239,111,108,0.3); }
+
+  /* clickable meeting link in row cells */
+  .meeting-link { background: transparent; border: none; padding: 0; text-align: left; cursor: pointer; color: inherit; font: inherit; line-height: 1.35; }
+  .meeting-link .mtitle { color: var(--text); }
+  .meeting-link:hover .mtitle { color: var(--accent); text-decoration: underline; }
+  .meeting-link .mmeta { color: var(--muted); font-size: 12px; }
+
+  /* calendar */
+  .cal-nav { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+  .cal-nav h2 { margin: 0; font-size: 16px; min-width: 170px; text-align: center; font-weight: 600; }
+  .cal-nav .grow { flex: 1; }
+  .cal-legend { color: var(--muted); font-size: 12px; display: inline-flex; align-items: center; gap: 4px; margin-right: 10px; }
+  .cal-legend-dot { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
+  .dot-overdue { background: var(--bad); }
+  .dot-soon { background: var(--warn); }
+  .dot-flag { background: var(--bad); opacity: 0.5; outline: 1px dashed var(--bad); }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); border-radius: 10px; overflow: hidden; padding: 0; }
+  .cal-dow { background: var(--panel-2); color: var(--muted); font-size: 11px; padding: 6px 4px; text-align: center; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
+  .cal-cell { min-height: 110px; padding: 6px 6px 8px; border-top: 1px solid var(--border); border-right: 1px solid var(--border); position: relative; background: var(--panel); display: flex; flex-direction: column; gap: 2px; }
+  .cal-cell:nth-child(7n) { border-right: none; }
+  .cal-cell.dim { background: var(--panel-2); }
+  .cal-cell.dim .dnum { opacity: 0.45; }
+  .cal-cell.today { background: rgba(106,168,255,0.08); box-shadow: inset 0 0 0 1px var(--accent); }
+  .cal-cell .dnum { font-size: 11px; color: var(--muted); font-weight: 700; letter-spacing: 0.04em; }
+  .cal-cell.today .dnum { color: var(--accent); }
+  .cal-event { display: block; width: 100%; text-align: left; background: var(--chip); border: 1px solid var(--border); border-radius: 4px; padding: 2px 6px; font-size: 11px; cursor: pointer; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.3; }
+  .cal-event:hover { border-color: var(--accent); }
+  .cal-event.overdue { border-left: 3px solid var(--bad); }
+  .cal-event.soon { border-left: 3px solid var(--warn); }
+  .cal-event.flag { color: var(--bad); }
+  .cal-event.flag::before { content: "⚠ "; }
+  .cal-event.cal-meeting { background: rgba(106,168,255,0.10); border-color: rgba(106,168,255,0.45); color: var(--accent); font-weight: 500; }
+  .cal-event.cal-meeting.scheduled { background: rgba(76,208,156,0.10); border-color: rgba(76,208,156,0.45); color: var(--good); }
+  .cal-more { background: transparent; border: none; padding: 0 6px; font-size: 11px; cursor: pointer; color: var(--accent); text-align: left; }
+  .cal-more:hover { text-decoration: underline; }
+
+  /* modal */
+  .modal { position: fixed; inset: 0; z-index: 50; display: flex; }
+  .modal[hidden] { display: none !important; }
+  .modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.45); animation: fadeIn 120ms ease; }
+  @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+  @keyframes slideIn { from { transform: translateX(20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+  .modal-panel { position: absolute; right: 0; top: 0; bottom: 0; width: min(640px, 100%); background: var(--panel); border-left: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; box-shadow: -10px 0 30px rgba(0,0,0,0.25); animation: slideIn 160ms cubic-bezier(.2,.8,.2,1); }
+  .modal-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+  .modal-header h2 { margin: 0; font-size: 17px; font-weight: 600; }
+  .modal-meta { color: var(--muted); font-size: 12px; margin-top: 4px; }
+  .modal-close { background: transparent; border: none; color: var(--muted); font-size: 26px; line-height: 1; cursor: pointer; padding: 0 4px; }
+  .modal-close:hover { color: var(--text); }
+  .modal-section { padding: 14px 20px; border-bottom: 1px solid var(--border); }
+  .modal-section:last-child { border-bottom: none; }
+  .modal-notes-section { flex: 1; overflow: auto; }
+  #modalAction .desc { font-weight: 600; margin-bottom: 6px; }
+  #modalAction .meta-line { color: var(--muted); font-size: 13px; margin-bottom: 6px; }
+  #modalAction .quote { color: var(--muted); font-size: 12px; font-style: italic; padding-left: 10px; border-left: 2px solid var(--border); margin-top: 8px; }
+
+  /* rendered markdown */
+  .md-body h1 { font-size: 18px; margin: 0 0 10px; font-weight: 700; }
+  .md-body h2 { font-size: 12px; margin: 18px 0 6px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
+  .md-body h3 { font-size: 14px; margin: 12px 0 4px; font-weight: 600; }
+  .md-body p { margin: 0 0 10px; line-height: 1.55; }
+  .md-body ul { margin: 0 0 10px; padding-left: 22px; }
+  .md-body li { margin-bottom: 3px; line-height: 1.5; }
+  .md-body code { background: var(--chip); padding: 1px 4px; border-radius: 3px; font-size: 13px; }
+  .md-body strong { color: var(--text); }
 </style>
 </head>
 <body>
@@ -120,6 +184,7 @@
   <button class="tab" role="tab" aria-selected="true" data-view="master">Master</button>
   <button class="tab" role="tab" aria-selected="false" data-view="byperson">By person</button>
   <button class="tab" role="tab" aria-selected="false" data-view="due3">Due in 3 days</button>
+  <button class="tab" role="tab" aria-selected="false" data-view="calendar">Calendar</button>
 </div>
 
 <div id="viewMaster" class="view">
@@ -203,6 +268,47 @@
   </div>
 </div>
 
+<div id="viewCalendar" class="view" hidden>
+  <div class="cal-nav">
+    <button class="btn secondary" id="calPrev" type="button" aria-label="Previous month">‹</button>
+    <h2 id="calLabel">—</h2>
+    <button class="btn secondary" id="calNext" type="button" aria-label="Next month">›</button>
+    <button class="btn secondary" id="calToday" type="button">Today</button>
+    <span class="grow"></span>
+    <span class="meta"><span class="cal-legend"><span class="cal-legend-dot dot-overdue"></span>overdue</span><span class="cal-legend"><span class="cal-legend-dot dot-soon"></span>due soon</span><span class="cal-legend"><span class="cal-legend-dot dot-flag"></span>needs owner</span></span>
+  </div>
+  <div class="cal-grid panel" id="calGrid">
+    <div class="cal-dow">Sun</div>
+    <div class="cal-dow">Mon</div>
+    <div class="cal-dow">Tue</div>
+    <div class="cal-dow">Wed</div>
+    <div class="cal-dow">Thu</div>
+    <div class="cal-dow">Fri</div>
+    <div class="cal-dow">Sat</div>
+  </div>
+</div>
+
+<div id="meetingModal" class="modal" hidden aria-modal="true" role="dialog" aria-labelledby="modalTitle">
+  <div class="modal-backdrop" data-close="1"></div>
+  <div class="modal-panel">
+    <header class="modal-header">
+      <div>
+        <h2 id="modalTitle">—</h2>
+        <div class="modal-meta" id="modalMeta"></div>
+      </div>
+      <button class="modal-close" type="button" aria-label="Close" data-close="1">×</button>
+    </header>
+    <section class="modal-section">
+      <div class="section-h" style="margin:0 0 8px">Action item</div>
+      <div id="modalAction"></div>
+    </section>
+    <section class="modal-section modal-notes-section">
+      <div class="section-h" style="margin:0 0 8px">Full meeting notes</div>
+      <div id="modalNotes" class="md-body"></div>
+    </section>
+  </div>
+</div>
+
 <div class="footer">
   <p>This dashboard is static. Reassignments are kept in your browser session; click <em>Download updated data.json</em> to commit changes — replace <code>data.json</code> in the repo and push. See <a href="README.md">README</a> for the full workflow.</p>
 </div>
@@ -240,6 +346,7 @@
   let view = "master";
   let masterSort = { field: "due", dir: "asc" };
   let activePerson = null;
+  let currentCalendar = null; // { year, month } — month is 1-indexed
 
   // ---------- load ----------
   async function load() {
@@ -311,7 +418,10 @@
   function meetingCell(item) {
     const m = meetingFor(item.meetingId);
     if (!m) return "";
-    return `<span class="mtitle">${escapeHtml(m.title)}</span><br>${escapeHtml(m.date)} · ${escapeHtml(m.type)}`;
+    return `<button class="meeting-link" data-action-id="${item.id}" type="button">
+      <span class="mtitle">${escapeHtml(m.title)}</span><br>
+      <span class="mmeta">${escapeHtml(m.date)} · ${escapeHtml(m.type)}</span>
+    </button>`;
   }
 
   function descCell(item) {
@@ -436,7 +546,163 @@
     renderMaster();
     renderByPerson();
     renderDue3();
+    renderCalendar();
     renderChangesBar();
+  }
+
+  // ---------- calendar view ----------
+  function renderCalendar() {
+    if (!data) return;
+    if (!currentCalendar) {
+      const t = todayISO();
+      const [y, m] = t.split("-").map(Number);
+      currentCalendar = { year: y, month: m };
+    }
+    const { year, month } = currentCalendar;
+    const grid = $("#calGrid");
+    grid.querySelectorAll(".cal-cell").forEach(n => n.remove());
+
+    const monthDate = new Date(Date.UTC(year, month - 1, 1));
+    $("#calLabel").textContent = monthDate.toLocaleDateString(undefined, { month: "long", year: "numeric", timeZone: "UTC" });
+
+    const firstDow = monthDate.getUTCDay();
+    const lastDay = new Date(Date.UTC(year, month, 0)).getUTCDate();
+    const prevLastDay = new Date(Date.UTC(year, month - 1, 0)).getUTCDate();
+
+    const cells = [];
+    for (let i = firstDow - 1; i >= 0; i--) cells.push({ day: prevLastDay - i, inMonth: false });
+    for (let d = 1; d <= lastDay; d++) cells.push({ day: d, inMonth: true });
+    while (cells.length % 7 !== 0) cells.push({ day: cells.length - lastDay - firstDow + 1, inMonth: false });
+
+    const t = todayISO();
+    const html = cells.map(c => {
+      const dateISO = c.inMonth ? `${year}-${String(month).padStart(2,"0")}-${String(c.day).padStart(2,"0")}` : null;
+      const isToday = dateISO === t;
+      const cls = `cal-cell${c.inMonth ? "" : " dim"}${isToday ? " today" : ""}`;
+      let inner = `<div class="dnum">${c.day}</div>`;
+      if (dateISO) {
+        // meetings on this date (held + scheduled)
+        const meetings = data.meetings.filter(m => m.date === dateISO);
+        for (const mt of meetings) {
+          const scheduled = mt.status === "scheduled";
+          const titleAttr = `${mt.title}${scheduled ? " (scheduled)" : ""}`;
+          const label = (scheduled ? "📌 " : "📅 ") + (mt.title.length > 22 ? mt.title.slice(0,22) + "…" : mt.title);
+          inner += `<button class="cal-event cal-meeting${scheduled ? " scheduled" : ""}" data-meeting-id="${escapeHtml(mt.id)}" title="${escapeHtml(titleAttr)}" type="button">${escapeHtml(label)}</button>`;
+        }
+        // open action items due this date
+        const items = data.actionItems.filter(a => a.dueDate === dateISO && a.status !== "done");
+        for (const it of items) {
+          const overdue = dateISO < t ? "overdue" : "";
+          const soon = !overdue && daysBetween(t, dateISO) <= 3 ? "soon" : "";
+          const flag = it.ownerStatus !== "resolved" ? "flag" : "";
+          const owner = it.owner === "UNASSIGNED" ? "?" : it.owner.split(" ")[0];
+          const desc = it.description.length > 22 ? it.description.slice(0,22) + "…" : it.description;
+          const label = `${owner}: ${desc}`;
+          const classes = ["cal-event", overdue, soon, flag].filter(Boolean).join(" ");
+          inner += `<button class="${classes}" data-action-id="${escapeHtml(it.id)}" title="${escapeHtml(it.owner + ": " + it.description)}" type="button">${escapeHtml(label)}</button>`;
+        }
+      }
+      return `<div class="${cls}">${inner}</div>`;
+    }).join("");
+    grid.insertAdjacentHTML("beforeend", html);
+  }
+
+  function calMove(delta) {
+    if (!currentCalendar) {
+      const [y, m] = todayISO().split("-").map(Number);
+      currentCalendar = { year: y, month: m };
+    }
+    let y = currentCalendar.year, m = currentCalendar.month + delta;
+    while (m < 1) { m += 12; y -= 1; }
+    while (m > 12) { m -= 12; y += 1; }
+    currentCalendar = { year: y, month: m };
+    renderCalendar();
+  }
+
+  function calToday() {
+    const [y, m] = todayISO().split("-").map(Number);
+    currentCalendar = { year: y, month: m };
+    renderCalendar();
+  }
+
+  // ---------- modal: meeting notes + action item detail ----------
+  async function openMeetingModal(opts) {
+    let item = null, meeting = null;
+    if (opts.actionId) {
+      item = data.actionItems.find(a => a.id === opts.actionId);
+      if (item) meeting = meetingFor(item.meetingId);
+    } else if (opts.meetingId) {
+      meeting = data.meetings.find(m => m.id === opts.meetingId);
+    }
+    if (!meeting) return;
+
+    const statusSuffix = meeting.status === "scheduled" ? " · scheduled" : "";
+    $("#modalTitle").textContent = meeting.title;
+    $("#modalMeta").innerHTML = `${escapeHtml(fmtDate(meeting.date))} · ${escapeHtml(meeting.type)}${escapeHtml(statusSuffix)}<br>attendees: ${(meeting.attendees || []).map(escapeHtml).join(", ") || "<em>(none yet)</em>"}`;
+
+    if (item) {
+      $("#modalAction").innerHTML = `
+        <div class="desc">${escapeHtml(item.description)}</div>
+        <div class="meta-line">Owner: <strong>${escapeHtml(item.owner)}</strong> · Due ${escapeHtml(fmtDate(item.dueDate))} ${dueBadge(item.dueDate)}</div>
+        <div class="quote">"${escapeHtml(item.originalText)}"</div>
+        ${item.dueDateNote ? `<div class="quote"><em>${escapeHtml(item.dueDateNote)}</em></div>` : ""}
+      `;
+    } else {
+      const items = data.actionItems.filter(a => a.meetingId === meeting.id);
+      if (items.length) {
+        $("#modalAction").innerHTML = `<div class="meta-line">${items.length} action item${items.length===1?"":"s"} from this meeting:</div>` +
+          items.map(a => `<div style="font-size:13px;margin-bottom:4px">• <strong>${escapeHtml(a.description)}</strong> <span style="color:var(--muted);font-size:12px">— ${escapeHtml(a.owner)}, due ${escapeHtml(fmtDate(a.dueDate))}</span></div>`).join("");
+      } else {
+        $("#modalAction").innerHTML = `<div class="meta-line"><em>No action items recorded for this meeting yet.</em></div>`;
+      }
+    }
+
+    $("#modalNotes").innerHTML = `<p style="color:var(--muted)">Loading meeting notes…</p>`;
+    $("#meetingModal").hidden = false;
+
+    if (!meeting.filename) {
+      $("#modalNotes").innerHTML = `<p style="color:var(--muted)"><em>No notes file yet.${meeting.status === "scheduled" ? ` This meeting is scheduled for ${escapeHtml(fmtDate(meeting.date))}.` : ""}</em></p>`;
+      return;
+    }
+    try {
+      const res = await fetch(`inbox/${meeting.filename}?t=${Date.now()}`, { cache: "no-store" });
+      if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+      const md = await res.text();
+      $("#modalNotes").innerHTML = renderMarkdown(md);
+    } catch (e) {
+      $("#modalNotes").innerHTML = `<p style="color:var(--bad)">Couldn't load <code>inbox/${escapeHtml(meeting.filename)}</code>: ${escapeHtml(e.message)}</p>`;
+    }
+  }
+
+  function closeMeetingModal() { $("#meetingModal").hidden = true; }
+
+  function renderMarkdown(md) {
+    const lines = String(md).split(/\r?\n/);
+    const out = []; let para = []; let inList = false;
+    function inline(s) {
+      s = s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+      s = s.replace(/\*\*([^*]+?)\*\*/g, "<strong>$1</strong>");
+      s = s.replace(/(?<!\*)\*([^*]+?)\*(?!\*)/g, "<em>$1</em>");
+      s = s.replace(/`([^`]+?)`/g, "<code>$1</code>");
+      return s;
+    }
+    function flushPara() { if (para.length) { out.push(`<p>${inline(para.join(" "))}</p>`); para = []; } }
+    function flushList() { if (inList) { out.push("</ul>"); inList = false; } }
+    for (const raw of lines) {
+      const line = raw.trim();
+      if (!line) { flushPara(); flushList(); continue; }
+      let m;
+      if ((m = line.match(/^###\s+(.*)$/))) { flushPara(); flushList(); out.push(`<h3>${inline(m[1])}</h3>`); }
+      else if ((m = line.match(/^##\s+(.*)$/))) { flushPara(); flushList(); out.push(`<h2>${inline(m[1])}</h2>`); }
+      else if ((m = line.match(/^#\s+(.*)$/))) { flushPara(); flushList(); out.push(`<h1>${inline(m[1])}</h1>`); }
+      else if ((m = line.match(/^[-*]\s+(.*)$/))) {
+        flushPara();
+        if (!inList) { out.push("<ul>"); inList = true; }
+        out.push(`<li>${inline(m[1])}</li>`);
+      } else { para.push(line); }
+    }
+    flushPara(); flushList();
+    return out.join("\n");
   }
 
   // ---------- changes / persistence ----------
@@ -505,14 +771,39 @@
   });
 
   document.addEventListener("click", (e) => {
+    // modal close (backdrop, X button)
+    if (e.target.closest("[data-close]")) { closeMeetingModal(); return; }
+
     const tab = e.target.closest(".tab");
     if (tab) {
       view = tab.dataset.view;
       $$(".tab").forEach(t => t.setAttribute("aria-selected", String(t === tab)));
       $$(".view").forEach(v => v.hidden = true);
       $("#view" + view.charAt(0).toUpperCase() + view.slice(1)).hidden = false;
+      if (view === "calendar") renderCalendar();
       return;
     }
+
+    // calendar nav
+    if (e.target.closest("#calPrev")) { calMove(-1); return; }
+    if (e.target.closest("#calNext")) { calMove(1); return; }
+    if (e.target.closest("#calToday")) { calToday(); return; }
+
+    // calendar event chip
+    const chip = e.target.closest(".cal-event");
+    if (chip) {
+      if (chip.dataset.actionId) openMeetingModal({ actionId: chip.dataset.actionId });
+      else if (chip.dataset.meetingId) openMeetingModal({ meetingId: chip.dataset.meetingId });
+      return;
+    }
+
+    // meeting cell click in any row table
+    const ml = e.target.closest(".meeting-link");
+    if (ml) {
+      openMeetingModal({ actionId: ml.dataset.actionId });
+      return;
+    }
+
     const th = e.target.closest("#viewMaster th[data-sort]");
     if (th) {
       const f = th.dataset.sort;
@@ -529,6 +820,10 @@
     }
     if (e.target.matches("#downloadBtn")) downloadUpdated();
     if (e.target.matches("#discardBtn")) discardChanges();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !$("#meetingModal").hidden) closeMeetingModal();
   });
 
   $("#masterSearch").addEventListener("input", renderMaster);

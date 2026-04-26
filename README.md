@@ -85,7 +85,9 @@ The two files in `inbox/` are sample meeting notes that ship with the prototype 
 - Ingestion from a local folder
 - Parsing with Claude (via Cowork)
 - JSON storage
-- Three-view HTML dashboard with sort, search, and reassignment UI
+- Four-view HTML dashboard: Master, By person, Due in 3 days, Calendar (month grid showing past + scheduled meetings as markers, action items as chips on their due-date cell)
+- Click any meeting reference (in any view, including calendar chips) to open a side panel with the full markdown notes plus the action item's details
+- Sort, search, and reassignment UI
 - Mark-done toggle
 - Manual download/replace publish loop
 
@@ -94,6 +96,7 @@ The two files in `inbox/` are sample meeting notes that ship with the prototype 
 These are documented as future integrations:
 
 - **Google Drive connector.** Real-time pull from a watched Drive folder instead of a local `inbox/`. Cowork already has a Drive MCP available; the only piece missing is a small daemon that polls and shells the result into Cowork.
+- **Google Calendar connector.** Pull upcoming meetings into the calendar view automatically — once linked, every event on the user's work calendar would render as a scheduled-meeting marker, and post-meeting Drive/Gemini notes would attach to the same meeting record. Today the calendar's `scheduled` status is set manually by parsing "Next Meeting" lines out of meeting notes; Calendar integration would invert that flow (calendar is the source of truth for the date, notes attach to it).
 - **Auto-push on reassignment.** A tiny local helper (`publish.sh` or `publish.py`) the user runs once that watches `data.json` for changes and runs `git add data.json && git commit && git push`. Static Pages can't push from the browser, so this needs a host-side process.
 - **Slack notifications.** Post to a channel when new action items are created and when items hit T-1 day. Needs a Slack MCP or webhook.
 - **HubSpot logging.** For client-facing meetings (`type === "external"`), log action items to the HubSpot deal record.

@@ -8,6 +8,7 @@
       "date": "2026-04-22",
       "title": "Quarterly Business Review - Acme Corp Travel Program",
       "type": "external",
+      "status": "held",
       "attendees": [
         "Samson Kampler",
         "Maya Chen",
@@ -21,11 +22,27 @@
       "date": "2026-04-23",
       "title": "Weekly Sales & Marketing Sync",
       "type": "internal",
+      "status": "held",
       "attendees": [
         "Samson Kampler",
         "Maya Chen",
         "Derek Boateng"
       ]
+    },
+    {
+      "id": "m_2026-05-20_acme-followup",
+      "filename": null,
+      "date": "2026-05-20",
+      "title": "Acme Corp Travel Program — Q2 Follow-up",
+      "type": "external",
+      "status": "scheduled",
+      "attendees": [
+        "Samson Kampler",
+        "Maya Chen",
+        "Tom Larsen",
+        "Priya Ramaswamy"
+      ],
+      "source": "Parsed from 'Next Meeting' line in m_2026-04-22_acme-qbr notes."
     }
   ],
   "actionItems": [
