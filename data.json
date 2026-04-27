@@ -13,7 +13,7 @@
         "Samson Kampler",
         "Maya Chen",
         "Tom Larsen",
-        "Priya Ramaswamy"
+        "Charlotte Gentry"
       ]
     },
     {
@@ -26,7 +26,7 @@
       "attendees": [
         "Samson Kampler",
         "Maya Chen",
-        "Derek Boateng"
+        "Derek Smith"
       ]
     },
     {
@@ -40,7 +40,7 @@
         "Samson Kampler",
         "Maya Chen",
         "Tom Larsen",
-        "Priya Ramaswamy"
+        "Charlotte Gentry"
       ],
       "source": "Parsed from 'Next Meeting' line in m_2026-04-22_acme-qbr notes."
     }
@@ -88,11 +88,11 @@
     {
       "id": "a_004",
       "meetingId": "m_2026-04-22_acme-qbr",
-      "owner": "Priya Ramaswamy",
+      "owner": "Charlotte Gentry",
       "ownerStatus": "resolved",
-      "ownerRaw": "Priya Ramaswamy",
+      "ownerRaw": "Charlotte Gentry",
       "description": "Share Acme's current rail booking volume to prioritize Western European expansion",
-      "originalText": "Priya Ramaswamy will share Acme's current rail booking volume so we can prioritize Western European expansion.",
+      "originalText": "Charlotte Gentry will share Acme's current rail booking volume so we can prioritize Western European expansion.",
       "dueDate": "2026-04-27",
       "dueDateSource": "default-3bd",
       "dueDateNote": "No date in source; default = meeting date + 3 business days.",
@@ -114,11 +114,11 @@
     {
       "id": "a_006",
       "meetingId": "m_2026-04-23_sm-sync",
-      "owner": "Derek Boateng",
+      "owner": "Derek Smith",
       "ownerStatus": "resolved",
-      "ownerRaw": "Derek Boateng",
+      "ownerRaw": "Derek Smith",
       "description": "Draft three case study video concepts",
-      "originalText": "Derek Boateng to draft three case study video concepts by next Friday.",
+      "originalText": "Derek Smith to draft three case study video concepts by next Friday.",
       "dueDate": "2026-05-01",
       "dueDateSource": "explicit-relative",
       "dueDateNote": "'by next Friday' said on Thu 2026-04-23. Interpreted as the Friday of the following week (2026-05-01) rather than the next-day Friday (2026-04-24); confirm with reassignment if you meant 2026-04-24.",

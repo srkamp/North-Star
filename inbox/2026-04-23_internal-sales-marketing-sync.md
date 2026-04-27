@@ -1,6 +1,6 @@
 # Weekly Sales & Marketing Sync
 Date: April 23, 2026
-Attendees: Samson Kampler, Maya Chen, Derek Boateng
+Attendees: Samson Kampler, Maya Chen, Derek Smith
 
 ## Summary
 Reviewed pipeline status, discussed proposal response bot performance, planned content for upcoming industry conference.
@@ -12,7 +12,7 @@ Reviewed pipeline status, discussed proposal response bot performance, planned c
 - Derek raised an idea about case study videos with existing clients.
 
 ## Action Items
-- Derek Boateng to draft three case study video concepts by next Friday.
+- Derek Smith to draft three case study video concepts by next Friday.
 - Samson to update the proposal bot's confidence scoring logic based on last month's feedback.
 - Maya Chen to confirm conference booth dimensions with the events team.
 - Samson Kampler will write a speaking abstract by May 1.
