@@ -1,8 +1,8 @@
-# the-followup
+# north-star
 
-A small prototype that ingests meeting notes, parses action items with named owners and due dates, and publishes them to a static dashboard.
+An operator's dashboard for the floor-to-ceiling generalist. Ingests meeting notes, parses action items with named owners and due dates, surfaces what's at risk and what's about to drop, and publishes everything to a static dashboard. Built end-to-end in a single session with Claude in Cowork.
 
-Live: <https://srkamp.github.io/the-followup/>
+Live: <https://srkamp.github.io/north-star/>
 
 ## What it does
 
@@ -15,7 +15,7 @@ Live: <https://srkamp.github.io/the-followup/>
 ## File layout
 
 ```
-the-followup/
+north-star/
 ├── index.html        # single-file dashboard (vanilla HTML/CSS/JS)
 ├── data.json         # source of truth — meetings + action items
 ├── people.json       # allowlist for owner auto-resolution
@@ -64,7 +64,7 @@ A future version could automate the push via a small local helper script (see "D
 ## Running locally
 
 ```
-cd the-followup
+cd north-star
 python3 -m http.server 8000
 # open http://localhost:8000
 ```
